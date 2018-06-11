@@ -1,3 +1,4 @@
+#git 基本操作命令
 git log --graph --pretty=oneline --abbrev-commit
 #强制忽略提交版本库的文件
 git update-index --assume-unchanged <files>
@@ -9,3 +10,5 @@ git add .
 git commit
 #添加tag
 git tag
+#rebase
+git rebase
