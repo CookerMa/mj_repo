@@ -1,6 +1,4 @@
 ###
-这是开发分支
-测试多条合并
-这是开发分支
-测试多条合并
-这是feature
+这是没有commit的develop
+git log --graph --pretty=oneline --abbrev-commit
+123
