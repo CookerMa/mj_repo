@@ -6,11 +6,53 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    <LinearLayout
+        android:visibility="gone"
+        android:orientation="horizontal"
+        android:id="@+id/v"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <ImageView
+            android:id="@+id/img1"
+            android:background="@drawable/ic_launcher_background"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:id="@+id/img2"
+            android:src="@drawable/ic_launcher_background"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+    </LinearLayout>
     <com.github.barteksc.pdfviewer.PDFView
+        android:visibility="gone"
         android:background="#000000"
         android:id="@+id/pdf"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
          />
 
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/v"
+        app:mcv_weekDayLabels="@array/date"
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:mcv_selectionColor="#fc8234"
+     app:mcv_calendarMode="month"
+        app:mcv_showOtherDates="all"
+        ></com.prolificinteractive.materialcalendarview.MaterialCalendarView>
 </android.support.constraint.ConstraintLayout>

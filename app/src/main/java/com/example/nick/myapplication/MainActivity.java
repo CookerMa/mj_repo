@@ -1,10 +1,13 @@
 package com.example.nick.myapplication;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -13,6 +16,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnDrawListener;
@@ -23,6 +28,18 @@ import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.github.barteksc.pdfviewer.listener.OnPageScrollListener;
 import com.github.barteksc.pdfviewer.listener.OnRenderListener;
 import com.github.barteksc.pdfviewer.listener.OnTapListener;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.CalendarMode;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+import com.prolificinteractive.materialcalendarview.OnRangeSelectedListener;
+import com.prolificinteractive.materialcalendarview.format.MonthArrayTitleFormatter;
+import com.prolificinteractive.materialcalendarview.format.TitleFormatter;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Calendar;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     PDFView pdfView;
@@ -34,12 +51,69 @@ public class MainActivity extends AppCompatActivity {
     boolean b = true;
     private RectF rectF;
     private float baseline;
+    private TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final MaterialCalendarView view = findViewById(R.id.view);
+        final ImageView img = findViewById(R.id.img);
+
+        try {
+            InputStream is = getAssets().open("test.pdf");
+            Bitmap bitmap = BitmapFactory.decodeStream(is);
+            is.close();
+
+            img.setImageBitmap(bitmap);
+
+
+        } catch (IOException e) {
+            Log.e("mj",e.toString());
+            e.printStackTrace();
+        }
+//        view.setTitleFormatter(new TitleFormatter() {
+//            @Override
+//            public CharSequence format(CalendarDay day) {
+//                return "2018年4月";
+//            }
+//        });
+//        view.setTitleFormatter(new MonthArrayTitleFormatter());
+        tv = findViewById(R.id.title);
+//        view.setTopbarVisible(false);
+        view.state().edit()
+                .isCacheCalendarPositionEnabled(true)
+                .setCalendarDisplayMode(CalendarMode.MONTHS)
+                .setMaximumDate(CalendarDay.from(2018,7,11))
+        .setMinimumDate(CalendarDay.from(2018,7,1))
+                .commit();
+//        view.setPagingEnabled(false);
+
+        int year = view.getCurrentDate().getYear();
+        int month = view.getCurrentDate().getMonth();
+        tv.setText(year+"--"+month);
+
+        findViewById(R.id.img1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("mj",view.canGoForward()+"---------");
+
+                view.goToPrevious();
+                int year = view.getCurrentDate().getYear();
+                int month = view.getCurrentDate().getMonth();
+                tv.setText(year+"--"+month);
+            }
+        });
+        findViewById(R.id.img2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                view.goToNext();
+                int year = view.getCurrentDate().getYear();
+                int month = view.getCurrentDate().getMonth();
+                tv.setText(year+"--"+month);
+            }
+        });
         mPaint.setColor(Color.parseColor("#363636"));
         mTextPaint.setColor(Color.WHITE);
         mPaint.setStyle(Paint.Style.FILL);

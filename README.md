@@ -8,3 +8,5 @@ git update-index --no-assume-unchanged <files>
 git add .
 #提交
 git commit
+asdsa
+tesaasfas
